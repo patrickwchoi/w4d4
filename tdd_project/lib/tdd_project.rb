@@ -47,8 +47,6 @@ end
 
 
 class Towers
-    #instance var for array => an array of 3 arrays
-    #@tower1 = [["-"], ["-", "-"], ["-", "-", "-"]]
         attr_accessor :towers
     def initialize(n)
         @towers = [[], [], [] ]
@@ -57,20 +55,15 @@ class Towers
     end
 
     def valid_start?(pos)
-
+        towers[pos].length > 0
     end
 
-    def valid_end?(size, pos)
-
+    def valid_end?(size, pos)                              
+        return true if towers[pos].length == 0 #[1, 2] [3, 4] []
+        towers[pos][0] > size
     end
-        # this will represent our tower 
-        # ["-"] - length 1
-        #["-", "-"] - length 2
-        #["-", "-", "-"] length 3
-end
 
-class Player
-    # 1 Step game start input = gets.chomp  choose the tower and we put hte first element in a tower of your choice [1,2,3] [ ] [ ]
+    #User inputs logic
     def get_start_input
         puts "Choose tower to pick first disk from"
         start_input = gets.chomp.to_i
@@ -82,9 +75,54 @@ class Player
         end_input = gets.chomp.to_i
         return end_input
     end
+
+    # 1. user choose the tower (in our case we'll shift the first elem)
+    # 2. user pick end tower; we check if our shifted element is LESS then the first elem of the chosen tower
+            # 1. if chosen number is less: we self.unshift(el)
+            # 2. if chosen number is greater: we ask user to change the END_INPUT
+        #3. if user choose the other tower and 
+
+    def move
+            until won?
+                got_input = false
+                while got_input != true
+                    p towers
+                    got_input = true
+                    start_pos = self.get_start_input
+                    end_pos = self.get_end_input
+                    size = towers[start_pos][0]
+                    if self.valid_start?(start_pos) && self.valid_end?(size, end_pos)
+                        #add to tower
+                        disk = towers[start_pos].shift
+                        towers[end_pos].unshift(disk)
+                    else
+                        got_input = false
+                        puts "Invalid positions"
+                    end
+                end
+                
+            end
+            puts "Hey, you won the game"
+        end
+        
+        
+        def won?
+            if towers[2].length == 3
+                puts "The game is over"
+            end
+        end
+
 end
 
-class Game
-    #Player.get_end_input is not valid => we ask user to reenter data
-end
+# class Game
+#     #Player.get_end_input is not valid => we ask user to reenter data
+#     attr_accessor :board
+#     def initialize(n)
+#         @tower = Towers.new(n)
+#     end
+
+
+
+    
+# end
 
