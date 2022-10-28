@@ -38,5 +38,24 @@ describe 'Array' do
             expect(stocks.stock_picker).to eq([2,3])
         end
     end
+end
 
+describe "Towers" do
+    subject(:tower_instance) {Towers.new(4)}
+
+    describe "#initialize" do 
+        it "check number of towers to equal 3" do
+            expect(tower_instance.towers.length).to eq(3)
+        end
+
+        it "check length of starting tower" do 
+            expect(tower_instance.towers[0].length).to eq(4)
+        end
+    end
+
+    describe "#valid_start?" do 
+        it "should consider towers[0] a valid position" do 
+            expect(tower_instance.valid_start?(0)).to eq true
+        end
+    end
 end
